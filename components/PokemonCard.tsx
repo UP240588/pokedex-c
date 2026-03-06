@@ -1,5 +1,6 @@
+import { router } from 'expo-router'; //router para navegar a otra pantalla
 import React from 'react';
-import { Image, Text, View } from 'react-native';
+import { Image, Pressable, StyleSheet, Text } from 'react-native';
 
 interface PokemonCardProps {
   name: string;
@@ -11,14 +12,32 @@ export default function PokemonCard(props: PokemonCardProps) {
   console.log(id);
   const pokemonImageURL = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
   return (
-    <View>
+    <Pressable 
+    onPress = {() => router.push("/new-screen")} //aqui lo colocamos para cambiar a new-screen
+    style={({pressed}) => [
+      styles.pressableStyle,
+      pressed && {
+        opacity: 0.5,
+      },
+    ]}> 
       <Image 
         source={{ uri : pokemonImageURL }}
         style={{ width: 100, height: 100 }}
         ></Image>
       <Text>{props.name}</Text>
       <Text>{props.url}</Text>
-    </View>
+    </Pressable>
+    
   );
 }
+
+const styles = StyleSheet.create({
+  pressableStyle: {
+    borderWidth: 1,
+    alignItems: "center",
+    backgroundColor: "#dbacf4",
+
+
+  },
+});
 //show pokemon name, pokemon image, pokemon url 
