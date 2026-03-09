@@ -2,10 +2,13 @@ import PokemonCard from "@/components/PokemonCard";
 import { useEffect, useState } from "react";
 import { ScrollView } from "react-native";
 
-  export default function Index() {
+interface Pokemon{ //agg interfaz, tipado
+  name: string;
+  url: string;
+}
 
-
-  const [results, setResults] = useState<any[]> ([]);
+export default function Index() {
+  const [results, setResults] = useState<Pokemon[]> ([]);
   useEffect(() => {
     console.log("Entre en pantalla");
     getPokemons();
@@ -17,6 +20,9 @@ import { ScrollView } from "react-native";
     const response = await fetch(URL, {   //fetch jalar informacion
       method: "GET",
     }); 
+
+
+
 
     if (response.ok) {
       const data = await response.json();  //json convertir a objeto
