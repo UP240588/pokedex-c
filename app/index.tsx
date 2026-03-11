@@ -1,6 +1,6 @@
 import PokemonCard from "@/components/PokemonCard";
 import { useEffect, useState } from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, TextInput } from "react-native";
 
 interface Pokemon{ //agg interfaz, tipado
   name: string;
@@ -9,6 +9,9 @@ interface Pokemon{ //agg interfaz, tipado
 
 export default function Index() {
   const [results, setResults] = useState<Pokemon[]> ([]);
+
+
+
   useEffect(() => {
     console.log("Entre en pantalla");
     getPokemons();
@@ -21,9 +24,6 @@ export default function Index() {
       method: "GET",
     }); 
 
-
-
-
     if (response.ok) {
       const data = await response.json();  //json convertir a objeto
       setResults(data.results);
@@ -35,8 +35,27 @@ export default function Index() {
   }
 }; 
 
+
+
+//funcion para filtrar o buscar el pokemon por letras
+const filterPokemon = (text: string) => {
+
+  if (text === "") {
+    getPokemons();
+    return;
+  }
+  const arrayFiltered = results.filter((pokemon) => pokemon.name.includes(text));
+  setResults(arrayFiltered);
+}
+
   return (
     <ScrollView>
+      {/* Input */}
+      <TextInput 
+      placeholder="Escribe el nombre del Pokémon que quieres buscar"
+      onChangeText={filterPokemon}
+      />
+        
       {results.map((item)=>{
         return (<PokemonCard 
                   key ={item.name} 
